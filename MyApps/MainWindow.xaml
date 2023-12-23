@@ -5,8 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyApps"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MyApps" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="63*"/>
+            <ColumnDefinition Width="62*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="150"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="150"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="2" Width="800" CornerRadius="5" BorderThickness ="5" Grid.ColumnSpan="2" Margin="100,0,100,0">
+            <Rectangle Grid.Row="2">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#EC2075" Offset="0.0"/>
+                        <GradientStop Color="#F33944" Offset="0.50"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Border>
+        <StackPanel Orientation="Horizontal" Width="1000" Grid.ColumnSpan="2">
+            <Label Width="1000" Content="Currency Converter" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="25" Foreground="#EC2075" FontWeight="Bold"></Label>
+        </StackPanel>
     </Grid>
 </Window>
