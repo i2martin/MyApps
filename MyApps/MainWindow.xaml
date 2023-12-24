@@ -3,13 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MyApps"
+        xmlns:local="clr-namespace:MyApps" xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="MyApps" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner">
+        Title="MyApps" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="63*"/>
-            <ColumnDefinition Width="62*"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="60"></RowDefinition>
@@ -18,7 +19,7 @@
             <RowDefinition Height="100"></RowDefinition>
             <RowDefinition Height="150"></RowDefinition>
         </Grid.RowDefinitions>
-        <Border Grid.Row="2" Width="800" CornerRadius="5" BorderThickness ="5" Grid.ColumnSpan="2" Margin="100,0,100,0">
+        <Border Grid.Row="2" Width="980" CornerRadius="5" BorderThickness ="5" Grid.ColumnSpan="3" Margin="10,0,10,0">
             <Rectangle Grid.Row="2">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
@@ -28,8 +29,34 @@
                 </Rectangle.Fill>
             </Rectangle>
         </Border>
-        <StackPanel Orientation="Horizontal" Width="1000" Grid.ColumnSpan="2">
+        <StackPanel Orientation="Horizontal" Width="1000" Grid.ColumnSpan="3">
             <Label Width="1000" Content="Currency Converter" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="25" Foreground="#EC2075" FontWeight="Bold"></Label>
         </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center"  VerticalAlignment="Center">
+            <Label FontSize="20" Content="Enter amount:" Foreground="White"></Label>
+            <TextBox Name="txtConvertAmount" FontSize ="20"  Width="200"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center">
+            <Label FontSize="20" Content="From:" Foreground="White"></Label>
+            <ComboBox Name="cbFromCurrency" FontSize="20" Width="200"></ComboBox>
+        </StackPanel>
+        <fa:ImageAwesome Margin="0, 0, 10, -30" Foreground="White" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Width="30" Icon="Exchange" VerticalAlignment="Center" />
+        <StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Center">
+            <Label FontSize="20" Content="To:" Foreground="White"></Label>
+            <ComboBox Name ="cbToCurrency" FontSize="20" Width="200"></ComboBox>
+        </StackPanel>
+        
+        <Border Height="80" Grid.Row="3" Grid.Column="1" Width="260" CornerRadius="5" BorderThickness ="5" Margin="10,0,10,0">
+            <Rectangle Grid.Row="2">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#EC2075" Offset="0.0"/>
+                        <GradientStop Color="#F33944" Offset="0.50"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Border>
+        <Label Name="lblConversion" Grid.Row="1" Grid.Column="1" FontSize="20" Foreground="#EC2075" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+        <Button Click="btnConvert_Click" FontSize ="20" Background="Transparent" Content="Convert" Foreground="White" Grid.Column="1" Grid.Row="3" Width="250" Height="70"></Button>
     </Grid>
 </Window>

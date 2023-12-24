@@ -8,14 +8,14 @@ namespace MyApps
 {
     internal class CurrencyInfo
     {
-        private string _Currency { get; set; }
-        private float _BuyingRate { get; set; }
-        private float _SellingRate { get; set; }
+        public string Currency { get; set; }
+        public float BuyingRate { get; set; }
+        public float SellingRate { get; set; }
 
         public CurrencyInfo(string currency, float buyingRate, float sellingRate) {
-            _Currency = currency;
-            _BuyingRate = buyingRate;
-            _SellingRate = sellingRate;
+            Currency = currency;
+            BuyingRate = buyingRate;
+            SellingRate = sellingRate;
         }
     }
 }
