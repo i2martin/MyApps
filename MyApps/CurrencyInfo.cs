@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using System.Globalization;
 
 namespace MyApps
 {
@@ -12,7 +14,8 @@ namespace MyApps
         public float BuyingRate { get; set; }
         public float SellingRate { get; set; }
 
-        public CurrencyInfo(string currency, float buyingRate, float sellingRate) {
+        public CurrencyInfo(string currency, float buyingRate, float sellingRate)
+        {
             Currency = currency;
             BuyingRate = buyingRate;
             SellingRate = sellingRate;

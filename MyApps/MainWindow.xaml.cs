@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Net.NetworkInformation;
+using System.Globalization;
 
 namespace MyApps
 {
@@ -25,10 +26,32 @@ namespace MyApps
     public partial class MainWindow : Window
     {
         List<CurrencyInfo> currencyList = new List<CurrencyInfo>();
+
         public MainWindow()
         {
-            InitializeComponent();            
-            //hnb tečajna lista
+            InitializeComponent();
+
+            //hnb tečajna lista          
+        }
+
+        public float GetFloat(JToken value)
+        {
+            float result;
+
+            // Try parsing in the current culture
+            if (!float.TryParse(value.ToString(), System.Globalization.NumberStyles.Any, CultureInfo.CurrentCulture, out result) &&
+                // Then try in US english
+                !float.TryParse(value.ToString(), System.Globalization.NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"), out result) &&
+                // Then in neutral language
+                !float.TryParse(value.ToString(), System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture, out result))
+            {
+                result = 1;
+            }
+            return result;
+        }
+
+        public void OnLoad(object sender, RoutedEventArgs e)
+        {
             try
             {
                 List<string> currencies = new List<string>();
@@ -38,7 +61,7 @@ namespace MyApps
                 httpRequest.Method = "GET";
                 var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
 
-                
+
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                 {
                     var responseJson = streamReader.ReadToEnd();
@@ -46,7 +69,7 @@ namespace MyApps
                 }
                 foreach (var currency in parsedResponse)
                 {
-                    currencyList.Add(new CurrencyInfo((string)currency["valuta"], (float)currency["kupovni_tecaj"], (float)currency["prodajni_tecaj"]));
+                    currencyList.Add(new CurrencyInfo((string)currency["valuta"], GetFloat(currency["kupovni_tecaj"]), (float)currency["prodajni_tecaj"]));
                     currencies.Add(currency["valuta"].ToString());
                 }
                 currencies.Add("EUR");
@@ -56,16 +79,16 @@ namespace MyApps
                     cbFromCurrency.Items.Add(cur);
                     cbToCurrency.Items.Add(cur);
                 }
+
+                //Update label info
+                lblUpdateInfo.Content = $"Conversion rates updated {DateTime.Now.ToString("G")}";
             }
             catch (WebException)
             {
 
                 MessageBox.Show("Failed to load currency rate. Using outdated rates. Check your internet connection. ");
             }
-
-            
         }
-
         private void btnConvert_Click(object sender, RoutedEventArgs e)
         {
             float amount;
@@ -76,9 +99,7 @@ namespace MyApps
                 toCurrency = (string)cbToCurrency.SelectedItem;
                 fromCurrency = (string)cbFromCurrency.SelectedItem;
                 
-                lblConversion.Content = $"{amount} {fromCurrency} is {FindConversionRate(toCurrency, fromCurrency)*amount} {toCurrency}";
-
-                //TODO: Work out the logic for conversion
+                lblConversion.Content = $"{amount} {fromCurrency} is {FindConversionRate(fromCurrency, toCurrency)*amount} {toCurrency}";
             }
             catch (FormatException)
             {
@@ -97,11 +118,11 @@ namespace MyApps
 
                 if (fromBuyingRate > toBuyingRate)
                 {
-                    return fromBuyingRate / toBuyingRate / 10;
+                    return  ((1 / fromBuyingRate)) * toBuyingRate;
                 }
                 else if (fromBuyingRate < toBuyingRate)
                 {
-                    return fromBuyingRate / toBuyingRate * 10;
+                    return ((1 / fromBuyingRate) * toBuyingRate);
                 }
                 else
                 {
@@ -112,14 +133,13 @@ namespace MyApps
             {
                 return currencyList.Find(x => x.Currency == toCurrency).BuyingRate;
             }
-
-
         }
         /* public void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
 { 
         
 
 }*/
+        
     }
 
 }
