@@ -49,8 +49,7 @@ namespace MyApps
             }
             return result;
         }
-
-        public void OnLoad(object sender, RoutedEventArgs e)
+        public void GetConversionRates()
         {
             try
             {
@@ -89,6 +88,10 @@ namespace MyApps
                 MessageBox.Show("Failed to load currency rate. Using outdated rates. Check your internet connection. ");
             }
         }
+        public void OnLoad(object sender, RoutedEventArgs e)
+        {
+            GetConversionRates();
+        }
         private void btnConvert_Click(object sender, RoutedEventArgs e)
         {
             float amount;
@@ -98,8 +101,11 @@ namespace MyApps
                 amount = float.Parse(txtConvertAmount.Text);
                 toCurrency = (string)cbToCurrency.SelectedItem;
                 fromCurrency = (string)cbFromCurrency.SelectedItem;
-                
-                lblConversion.Content = $"{amount} {fromCurrency} is {FindConversionRate(fromCurrency, toCurrency)*amount} {toCurrency}";
+
+                if (FindConversionRate(fromCurrency, toCurrency) > 0)
+                {
+                    lblConversion.Content = $"{amount} {fromCurrency} is {Math.Round(FindConversionRate(fromCurrency, toCurrency) * amount, 2)} {toCurrency}";
+                }
             }
             catch (FormatException)
             {
@@ -113,12 +119,23 @@ namespace MyApps
 
             if (fromCurrency != "EUR")
             {
-                float fromBuyingRate = currencyList.Find(x => x.Currency == fromCurrency).BuyingRate;
-                float toBuyingRate = currencyList.Find(x => x.Currency == toCurrency).BuyingRate;
+                float fromBuyingRate;
+                float toBuyingRate;
+                if (fromCurrency == null || toCurrency == null)
+                {
+                    MessageBox.Show("Please select both From and To currency!");
+                    return 0;
+                }
+                else
+                {
+                    fromBuyingRate = currencyList.Find(x => x.Currency == fromCurrency).BuyingRate;
+                    toBuyingRate = currencyList.Find(x => x.Currency == toCurrency).BuyingRate;
+
+                }
 
                 if (fromBuyingRate > toBuyingRate)
                 {
-                    return  ((1 / fromBuyingRate)) * toBuyingRate;
+                    return ((1 / fromBuyingRate)) * toBuyingRate;
                 }
                 else if (fromBuyingRate < toBuyingRate)
                 {
@@ -134,12 +151,13 @@ namespace MyApps
                 return currencyList.Find(x => x.Currency == toCurrency).BuyingRate;
             }
         }
-        /* public void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
-{ 
-        
 
-}*/
-        
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            currencyList.Clear();
+            cbFromCurrency.Items.Clear();
+            cbToCurrency.Items.Clear();
+            GetConversionRates();
+        }
     }
-
 }

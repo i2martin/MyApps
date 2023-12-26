@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:MyApps" xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Title="MyApps" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
         Loaded="OnLoad">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -20,7 +21,7 @@
             <RowDefinition Height="100"></RowDefinition>
             <RowDefinition Height="150"></RowDefinition>
         </Grid.RowDefinitions>
-        <Border Grid.Row="2" Width="980" CornerRadius="5" BorderThickness ="5" Grid.ColumnSpan="3" Margin="10,0,10,0">
+        <Border Grid.Row="2" Width="980" CornerRadius="10" BorderThickness ="5" Grid.ColumnSpan="3" Margin="10,0,10,0">
             <Rectangle Grid.Row="2">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
@@ -46,7 +47,7 @@
             <Label FontSize="20" Content="To:" Foreground="White"></Label>
             <ComboBox MaxDropDownHeight="200" Name ="cbToCurrency" FontSize="20" Width="200"></ComboBox>
         </StackPanel>
-        <Border Height="80" Grid.Row="3" Grid.Column="1" Width="260" CornerRadius="5" BorderThickness ="5" Margin="10,0,10,0">
+        <Border Height="80" Grid.Row="3" Grid.Column="1" Width="260" CornerRadius="10" BorderThickness ="5" Margin="10,0,10,0">
             <Rectangle Grid.Row="2">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
@@ -59,7 +60,7 @@
         <Label Name="lblConversion" Grid.Row="1" Grid.Column="1" FontSize="20" Foreground="#EC2075" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
         <Button Click="btnConvert_Click" FontSize ="20" Background="Transparent" Content="Convert" Foreground="White" Grid.Column="1" Grid.Row="3" Width="250" Height="70"></Button>
         <Label Content="Couldn't provide up to date conversion rates." Name="lblUpdateInfo" Grid.Row="4" Grid.Column="1" FontSize="16" Foreground="#EC2075" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-        <Button VerticalAlignment="Center" BorderThickness="0" Background="Transparent" HorizontalAlignment="Right" Grid.Row="4" Grid.Column="1" Width="35" Height="35"><fa:ImageAwesome Foreground="#EC2075"   Icon="Refresh" />
+        <Button Click="btnRefresh_Click" VerticalAlignment="Center" BorderThickness="0" Background="Transparent" HorizontalAlignment="Right" Grid.Row="4" Grid.Column="1" Width="35" Height="35"><fa:ImageAwesome Foreground="#EC2075"   Icon="Refresh" />
         </Button>
 
     </Grid>
