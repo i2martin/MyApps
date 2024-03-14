@@ -72,6 +72,7 @@ namespace MyApps
                     currencies.Add(currency["valuta"].ToString());
                 }
                 currencies.Add("EUR");
+                currencyList.Add(new CurrencyInfo("EUR",1,1));
                 currencies.Sort();
                 foreach (string cur in currencies)
                 {
